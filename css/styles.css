@@ -25,7 +25,7 @@ html {
 }
 
 
-h2, h3 {
+h2, h3 , h1{
   text-align:center;
 }
 
@@ -40,6 +40,19 @@ h2, h3 {
   border-radius: 6px;
   pointer-events: none;
 }
+
+.tooltip-map2 {
+  position: absolute;
+  text-align: left;
+  padding: 8px;
+  margin-top: -20px;
+  background: #FFFFFF;
+  color: #313639;
+  border: 1px solid #313639;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
 
 .tick text{
   fill: gray;

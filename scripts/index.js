@@ -60,10 +60,42 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
+      // map tooltip div
+  var tooltip_map_div2 = d3.select("body").append("div")
+    .attr("class", "tooltip-map2")
+    .style("display", "none");
+
+  tooltip_map_div2.append("text")
+    .attr("id", "tooltip-map2-text1");
+
+  tooltip_map_div2.append("br");
+
+  tooltip_map_div2.append("text")
+    .attr("id", "tooltip-map2-text2");
+
+
+    // map tooltip div
+  var tooltip_map_div = d3.select("body").append("div")
+    .attr("class", "tooltip-map")
+    .style("display", "none");
+
+  tooltip_map_div.append("text")
+    .attr("id", "tooltip-map-text1");
+
+  tooltip_map_div.append("br");
+
+  tooltip_map_div.append("text")
+    .attr("id", "tooltip-map-text2");
+
+  tooltip_map_div.append("br");
+
+  tooltip_map_div.append("text")
+    .attr("id", "tooltip-map-text3");
+
     var scale_map = 900;
    
-    drawMap(scale_map);
-    drawMap2(scale_map);
+    drawMap(scale_map, tooltip_map_div, tooltip_map_div2);
+    drawMap2(scale_map, tooltip_map_div, tooltip_map_div2);
   })
 
 });
@@ -86,25 +118,9 @@ function getExtentsForYear(yearData) {
 }
 
 // Draw the map in the #map svg
-function drawMap(scale_map) {
+function drawMap(scale_map, tooltip_map_div, tooltip_map_div2) {
 
-  // map tooltip div
-  var tooltip_map_div = d3.select("body").append("div")
-    .attr("class", "tooltip-map")
-    .style("display", "none");
 
-  tooltip_map_div.append("text")
-    .attr("id", "tooltip-map-text1");
-
-  tooltip_map_div.append("br");
-
-  tooltip_map_div.append("text")
-    .attr("id", "tooltip-map-text2");
-
-  tooltip_map_div.append("br");
-
-  tooltip_map_div.append("text")
-    .attr("id", "tooltip-map-text3");
 
 
   // create the map projection and geoPath
@@ -181,10 +197,15 @@ function drawMap(scale_map) {
   })
     .on('mouseover', function(d,i) {
       //console.log('mouseover on ' + d.properties.name);
-      d3.select(this)
+      d3.select("#"+d.properties.name+"2")
         .style("stroke", "cyan")
         .style("stroke-width", "4px");
       tooltip_map_div
+        .style("display", "inline");
+      d3.select(this)
+        .style("stroke", "cyan")
+        .style("stroke-width", "4px");
+      tooltip_map_div2
         .style("display", "inline");
     })
     .on('mousemove',function(d,i) {
@@ -200,9 +221,26 @@ function drawMap(scale_map) {
         .text("actual winner: " + d.properties.winner);
       tooltip_map_div.select("#tooltip-map-text3")
         .text("projected winner: " + d.properties.projected_winner);
+
+      tooltip_map_div2
+        //.text("Country: " + d.properties.name)// + "<br />" + "GDP: " + mapData[d.properties.name])
+        .style("left", (d3.event.pageX+88 + 10) + "px")
+        .style("top", (d3.event.pageY - 10) + "px");
+      tooltip_map_div2.select("#tooltip-map2-text1")
+        .text("Country: " + d.properties.name);
+      tooltip_map_div2.select("#tooltip-map2-text2")
+        .text("GDP: " + d.properties.error_TOT);
     })
     .on('mouseout', function(d,i) {
       //console.log('mouseout on ' + d.properties.name);
+      d3.select("#"+d.properties.name+"2")
+        .style("stroke", "black")
+        .style("stroke-width", "1px");
+      tooltip_map_div
+        .style("display", "none");
+      tooltip_map_div
+        .style("left", (d3.event.pageX - 34) + "px")
+        .style("top", (d3.event.pageY - 12) + "px");
       d3.select(this)
         .style("stroke", "black")
         .style("stroke-width", "1px");
@@ -260,20 +298,8 @@ function drawMap(scale_map) {
     
 }
 
-function drawMap2(scale_map) {
+function drawMap2(scale_map, tooltip_map_div, tooltip_map_div2) {
 
-  // map tooltip div
-  var tooltip_map_div = d3.select("body").append("div")
-    .attr("class", "tooltip-map")
-    .style("display", "none");
-
-  tooltip_map_div.append("text")
-    .attr("id", "tooltip-map-text1");
-
-  tooltip_map_div.append("br");
-
-  tooltip_map_div.append("text")
-    .attr("id", "tooltip-map-text2");
 
   // create the map projection and geoPath
   let projection = d3.geoAlbersUsa()
@@ -315,23 +341,23 @@ function drawMap2(scale_map) {
       d3.select("#"+d.properties.name)
         .style("stroke", "cyan")
         .style("stroke-width", "4px");
-      tooltip_map_div
+      tooltip_map_div2
         .style("display", "inline");
       d3.select(this)
         .style("stroke", "cyan")
         .style("stroke-width", "4px");
-      tooltip_map_div
+      tooltip_map_div2
         .style("display", "inline");
     })
     .on('mousemove',function(d,i) {
       //console.log('mousemove on ' + d.properties.name);
-      tooltip_map_div
+      tooltip_map_div2
         //.text("Country: " + d.properties.name)// + "<br />" + "GDP: " + mapData[d.properties.name])
         .style("left", (d3.event.pageX + 10) + "px")
         .style("top", (d3.event.pageY - 10) + "px");
-      tooltip_map_div.select("#tooltip-map-text1")
+      tooltip_map_div2.select("#tooltip-map2-text1")
         .text("Country: " + d.properties.name);
-      tooltip_map_div.select("#tooltip-map-text2")
+      tooltip_map_div2.select("#tooltip-map2-text2")
         .text("GDP: " + d.properties.error_TOT);
     })
     .on('mouseout', function(d,i) {
@@ -339,17 +365,17 @@ function drawMap2(scale_map) {
       d3.select("#"+d.properties.name)
         .style("stroke", "black")
         .style("stroke-width", "1px");
-      tooltip_map_div
+      tooltip_map_div2
         .style("display", "none");
-      tooltip_map_div
+      tooltip_map_div2
         .style("left", (d3.event.pageX - 34) + "px")
         .style("top", (d3.event.pageY - 12) + "px");
       d3.select(this)
         .style("stroke", "black")
         .style("stroke-width", "1px");
-      tooltip_map_div
+      tooltip_map_div2
         .style("display", "none");
-      tooltip_map_div
+      tooltip_map_div2
         .style("left", (d3.event.pageX - 34) + "px")
         .style("top", (d3.event.pageY - 12) + "px");
     })

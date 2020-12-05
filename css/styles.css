@@ -2,6 +2,10 @@
   margin:auto;
   width:1800px;
 }
+#wrapper2 {
+  margin:auto;
+  width:1800px;
+}
 input {
   width:50px;
 }
@@ -25,7 +29,7 @@ html {
 }
 
 
-h2, h3 , h1{
+h2, h3 , h1, h5{
   text-align:center;
 }
 

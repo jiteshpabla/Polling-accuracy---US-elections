@@ -149,13 +149,6 @@ function drawMap(scale_map, tooltip_map_div, tooltip_map_div2) {
     .attr('d', path)
     .attr('id', d => { return d.properties.name})
     .attr('class','countrymap')
-    .style("fill", "red")
-    /*.style('fill', d => {
-      let val = +yearData[d.properties.name];
-      if(isNaN(val)) 
-        return 'white';
-      return colorScale(val);
-    })*/
     .style("fill", function(d) {
 
     // Get data value
@@ -203,7 +196,7 @@ function drawMap(scale_map, tooltip_map_div, tooltip_map_div2) {
       tooltip_map_div2.select("#tooltip-map2-text1")
         .text("State: " + d.properties.name);
       tooltip_map_div2.select("#tooltip-map2-text2")
-        .text("Poll error: " + d.properties.error_TOT);
+        .text("Cumulative poll error: " + Math.round(d.properties.error_TOT * 100) / 100 + " %");
     })
     .on('mouseout', function(d,i) {
       //console.log('mouseout on ' + d.properties.name);
@@ -229,7 +222,7 @@ function drawMap(scale_map, tooltip_map_div, tooltip_map_div2) {
 
         //legend
     var keys_vals = [0, 1]
-    var keys_vals_text = ["wrong", "right"]
+    var keys_vals_text = ["Incorrectly predicted by polls", "Correctly predicted by polls"]
     mapSvg.append('g').selectAll("myrects")
         .data(keys_vals)
         .enter()
@@ -250,6 +243,17 @@ function drawMap(scale_map, tooltip_map_div, tooltip_map_div2) {
         .style("font-size", "11px")
         .style("font-family", "sans-serif")
         .attr("alignment-baseline","middle")
+
+
+        // title
+    mapSvg.append("text")             
+        .attr("transform",
+              "translate(" + (lineWidth/2) + " ," + ( lineMargin.top + 20) + ")")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "14px")
+        .attr("font-weight",  700)
+        .style("text-anchor", "middle")
+        .text("States predicted by Polls vs Reality");
 
     
     
@@ -327,7 +331,7 @@ function drawMap2(scale_map, tooltip_map_div, tooltip_map_div2) {
       tooltip_map_div2.select("#tooltip-map2-text1")
         .text("State: " + d.properties.name);
       tooltip_map_div2.select("#tooltip-map2-text2")
-        .text("Poll error: " + d.properties.error_TOT);
+        .text("Cumulative poll error: " + Math.round(d.properties.error_TOT * 100) / 100 + " %");
     })
     .on('mouseout', function(d,i) {
       //console.log('mouseout on ' + d.properties.name);
@@ -392,6 +396,28 @@ function drawMap2(scale_map, tooltip_map_div, tooltip_map_div2) {
       };
 
     draw_legend();
+
+
+            // title
+    lineSvg.append("text")             
+        .attr("transform",
+              "translate(" + (lineWidth/2) + " ," + ( lineMargin.top + 20) + ")")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "14px")
+        .attr("font-weight",  700)
+        .style("text-anchor", "middle")
+        .text("Actual Polling margins vs Reality");
+
+// legend text
+        lineSvg.append("text")             
+        //.attr("transform",
+        //      "translate(" + (lineWidth/2)-400 + " ," + ( lineHeight - 60) + ")")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "12px")
+        .style("text-anchor", "middle")
+        .attr("x", + 160)
+        .attr("y",  function(d,i){ return lineHeight -30 + 8 + i*(20) - (lineMargin.top / 2)} )
+        .text("% Error in Polls");
     
 
     

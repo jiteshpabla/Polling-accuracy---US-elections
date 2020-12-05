@@ -132,33 +132,7 @@ function drawMap(scale_map, tooltip_map_div, tooltip_map_div2) {
   let path = d3.geoPath()
                .projection(projection);
 
-  // get the selected year based on the input box's value
-  //var year = document.getElementById("year-input").value;
-  //console.log(year)
 
-  // get the GDP values for countries for the selected year
-  //let yearData = timeData.filter( d => d.Year == year)[0];
-  
-  // get the min/max GDP values for the selected year
-  //let extent = getExtentsForYear(yearData);
-
-  // get the selected color scale based on the dropdown value
-  /*var color_scale_selector = document.getElementById("color-scale-select").value;
-  //console.log(color_scale_selector);
-  switch (color_scale_selector) {
-  case 'interpolateRdYlGns':
-    var colorScale = d3.scaleSequential(d3.interpolateRdYlGn).domain(extent);
-    break;
-  case 'interpolateViridis':
-    var colorScale = d3.scaleSequential(d3.interpolateViridis).domain(extent);
-    break;
-  case 'interpolateBrBG':
-    var colorScale = d3.scaleSequential(d3.interpolateBrBG).domain(extent);
-    break;
-  default:
-    var colorScale = d3.scaleSequential(d3.interpolateRdYlGn).domain(extent);
-    break;
-  }*/
 
   var color = d3.scaleLinear()
         //.range(["rgb(213,222,217)","rgb(69,173,168)","rgb(84,36,55)","rgb(217,91,67)"]);
@@ -250,50 +224,33 @@ function drawMap(scale_map, tooltip_map_div, tooltip_map_div2) {
         .style("left", (d3.event.pageX - 34) + "px")
         .style("top", (d3.event.pageY - 12) + "px");
     });
-    /*.on('click', function(d,i) {
-      //console.log('clicked on ' + d.properties.name);
-      lineSvg.selectAll("*").remove();
-      drawLineChart(d.properties.name);
-    });*/
 
 
-    /*function draw_legend(){
-      axisScale = d3.scaleLinear()
-        .domain(colorScale.domain())
-        .range([lineMargin.left - 70, lineInnerWidth - lineMargin.right - 350]);
 
-      axisBottom = g => g
-        .attr("class", `x-axis`)
-        .attr("transform", `translate(0,${lineInnerHeight + 20})`)
-        .call(d3.axisBottom(axisScale)
-        .ticks(6)
-        .tickSize(-20));
-
-      const defs = mapSvg.append("defs");
-      
-      const linearGradient = defs.append("linearGradient")
-        .attr("id", "linear-gradient");
-      
-      linearGradient.selectAll("stop")
-        .data(colorScale.ticks().map((t, i, n) => ({ offset: `${100*i/n.length}%`, color: colorScale(t) })))
+        //legend
+    var keys_vals = [0, 1]
+    var keys_vals_text = ["wrong", "right"]
+    mapSvg.append('g').selectAll("myrects")
+        .data(keys_vals)
         .enter()
-        .append("stop")
-        .attr("offset", d => d.offset)
-        .attr("stop-color", d => d.color);
-
-      mapSvg.append('g')
-        .attr("transform", `translate(0,${lineInnerHeight})`)
         .append("rect")
-        .attr('transform', `translate(${lineMargin.left - 70}, 0)`)
-        .attr("width", 300)
-        .attr("height", 20)
-        .style("fill", "url(#linear-gradient)");
+        .attr("x", 60)
+        .attr("y",  function(d,i){ return lineHeight -70 + i*(20) - (lineMargin.top / 2)} )
+        .attr("width", 16)
+        .attr("height", 16)
+        .style("fill", function(d) { return color(d); } )
 
-      mapSvg.append('g')
-        .call(axisBottom);
-      };
+    mapSvg.append('g').selectAll("myrects")
+        .data(keys_vals_text)
+        .enter()
+        .append("text")
+        .attr("x", 80)
+        .attr("y",  function(d,i){ return lineHeight -70 + 8 + i*(20) - (lineMargin.top / 2)} )
+        .text( function(d) { return d } )
+        .style("font-size", "11px")
+        .style("font-family", "sans-serif")
+        .attr("alignment-baseline","middle")
 
-    draw_legend();*/
     
     
 }

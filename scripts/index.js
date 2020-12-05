@@ -224,12 +224,12 @@ function drawMap(scale_map, tooltip_map_div, tooltip_map_div2) {
 
       tooltip_map_div2
         //.text("Country: " + d.properties.name)// + "<br />" + "GDP: " + mapData[d.properties.name])
-        .style("left", (d3.event.pageX+88 + 10) + "px")
+        .style("left", (d3.event.pageX+890 + 10) + "px")
         .style("top", (d3.event.pageY - 10) + "px");
       tooltip_map_div2.select("#tooltip-map2-text1")
-        .text("Country: " + d.properties.name);
+        .text("State: " + d.properties.name);
       tooltip_map_div2.select("#tooltip-map2-text2")
-        .text("GDP: " + d.properties.error_TOT);
+        .text("Poll error: " + d.properties.error_TOT);
     })
     .on('mouseout', function(d,i) {
       //console.log('mouseout on ' + d.properties.name);
@@ -244,7 +244,7 @@ function drawMap(scale_map, tooltip_map_div, tooltip_map_div2) {
       d3.select(this)
         .style("stroke", "black")
         .style("stroke-width", "1px");
-      tooltip_map_div
+      tooltip_map_div2
         .style("display", "none");
       tooltip_map_div
         .style("left", (d3.event.pageX - 34) + "px")
@@ -341,7 +341,7 @@ function drawMap2(scale_map, tooltip_map_div, tooltip_map_div2) {
       d3.select("#"+d.properties.name)
         .style("stroke", "cyan")
         .style("stroke-width", "4px");
-      tooltip_map_div2
+      tooltip_map_div
         .style("display", "inline");
       d3.select(this)
         .style("stroke", "cyan")
@@ -351,21 +351,33 @@ function drawMap2(scale_map, tooltip_map_div, tooltip_map_div2) {
     })
     .on('mousemove',function(d,i) {
       //console.log('mousemove on ' + d.properties.name);
+      tooltip_map_div
+        //.text("Country: " + d.properties.name)// + "<br />" + "GDP: " + yearData[d.properties.name])
+        .style("left", (d3.event.pageX-890 + 10) + "px")
+        .style("top", (d3.event.pageY - 10) + "px");
+      tooltip_map_div.select("#tooltip-map-text1")
+        .text("State: " + d.properties.name);
+      tooltip_map_div.select("#tooltip-map-text2")
+        //.text("GDP: " + yearData[d.properties.state_turnout]);
+        .text("actual winner: " + d.properties.winner);
+      tooltip_map_div.select("#tooltip-map-text3")
+        .text("projected winner: " + d.properties.projected_winner);
+
       tooltip_map_div2
         //.text("Country: " + d.properties.name)// + "<br />" + "GDP: " + mapData[d.properties.name])
         .style("left", (d3.event.pageX + 10) + "px")
         .style("top", (d3.event.pageY - 10) + "px");
       tooltip_map_div2.select("#tooltip-map2-text1")
-        .text("Country: " + d.properties.name);
+        .text("State: " + d.properties.name);
       tooltip_map_div2.select("#tooltip-map2-text2")
-        .text("GDP: " + d.properties.error_TOT);
+        .text("Poll error: " + d.properties.error_TOT);
     })
     .on('mouseout', function(d,i) {
       //console.log('mouseout on ' + d.properties.name);
       d3.select("#"+d.properties.name)
         .style("stroke", "black")
         .style("stroke-width", "1px");
-      tooltip_map_div2
+      tooltip_map_div
         .style("display", "none");
       tooltip_map_div2
         .style("left", (d3.event.pageX - 34) + "px")

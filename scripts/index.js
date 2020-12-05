@@ -117,7 +117,7 @@ function drawMap(scale_map) {
                .projection(projection);
 
   // get the selected year based on the input box's value
-  var year = document.getElementById("year-input").value;
+  //var year = document.getElementById("year-input").value;
   //console.log(year)
 
   // get the GDP values for countries for the selected year
@@ -284,9 +284,6 @@ function drawMap2(scale_map) {
   let path = d3.geoPath()
                .projection(projection);
 
-  // get the selected year based on the input box's value
-  var year = document.getElementById("year-input").value;
-  //console.log(year)
 
   //let mapData = timeData.filter( d => d.Year == year)[0];
   

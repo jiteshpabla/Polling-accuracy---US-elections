@@ -1,108 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<script src="http://d3js.org/d3.v5.min.js"></script>
-<link href="style.css" rel="stylesheet">
-</head>
-<body>
-<script type="text/javascript">
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>CSE 578 - Fall 2020 - Homework #3</title>
+    <link rel='stylesheet' href='css/styles.css'>
+    <script src='https://d3js.org/d3.v5.min.js'></script>
+    <script src='scripts/index.js'></script>
 
-		
-//Width and height of map
-var width = 960;
-var height = 500;
-
-// D3 Projection
-var projection = d3.geoAlbersUsa()
-				   .translate([width/2, height/2])    // translate to center of screen
-				   .scale([1000]);          // scale things down so see entire US
-        
-// Define path generator
-var path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
-		  	 .projection(projection);  // tell path generator to use albersUsa projection
-
-		
-// Define linear scale for output
-var color = d3.scaleLinear()
-			  //.range(["rgb(213,222,217)","rgb(69,173,168)","rgb(84,36,55)","rgb(217,91,67)"]);
-			  .range(["blue", "red"]);
-
-var legendText = ["blue", "red"]//["Cities Lived", "States Lived", "States Visited", "Nada"];
-
-//Create SVG element and append map to the SVG
-var svg = d3.select("body")
-			.append("svg")
-			.attr("width", width)
-			.attr("height", height);
-        
-// Append Div for tooltip to SVG
-var div = d3.select("body")
-		    .append("div")   
-    		.attr("class", "tooltip")               
-    		.style("opacity", 0);
-
-// Load in my states data!
-var states_data = d3.csv("election_data.csv");//d3.csv("stateslived.csv"); //, function(data) {
-color.domain([0,1]);//color.domain([0,1,2,3]); // setting the range of the input data
-
-// Load GeoJSON data and merge with states data
-var us_data = d3.json("us-states.json"); //, function(json) {
-
-Promise.all([us_data, states_data]).then(function (values) {
-    var map = values[0];
-    console.log("map", map);
-
-    var states = values[1];
-
-        // Loop through each state data value in the .csv file
-	for (var i = 0; i < states.length; i++) {
-
-		// Grab State Name
-		var dataState = states[i].state;//data[i].state;
-
-		// Grab data value 
-		var dataValue = states[i].actual//states[i].visited;//data[i].visited;
-
-		// Find the corresponding state inside the GeoJSON
-		for (var j = 0; j < map.features.length; j++)  {
-			var jsonState = map.features[j].properties.name;
-
-			if (dataState == jsonState) {
-
-			// Copy the data value into the JSON
-			map.features[j].properties.actual = dataValue; 
-
-			// Stop looking through the JSON
-			break;
-			}
-		}
-	}
-
-		// Bind the data to the SVG and create one path per GeoJSON feature
-	svg.selectAll("path")
-		.data(map.features)
-		.enter()
-		.append("path")
-		.attr("d", path)
-		.style("stroke", "#fff")
-		.style("stroke-width", "1")
-		.style("fill", function(d) {
-
-		// Get data value
-		var value = d.properties.actual;
-
-		if (value) {
-		//If value exists…
-		return color(value);
-		} else {
-		//If value is undefined…
-		return "rgb(213,222,217)";
-		}
-	});
-
-});
-
-</script>
-</body>
+  </head>
+  <body>
+    <div id='wrapper'>
+      <h2>Homework #3: Linking Charts and Adding Interactivity</h2>
+      <h3>Jitesh Pabla - jpabla1@asu.edu - 1217310679</h3>
+      <hr style='width:100%'>
+      <h1>GDP per Capita in Africa (1960-2011)</h1>
+      &nbsp;Year:&nbsp;
+      <input id='year-input' type='number' value='2000'/>
+      &nbsp;
+      &nbsp;Color Scale&nbsp;
+      <select id='color-scale-select'>
+        <option value='interpolateRdYlGn'>interpolateRdYlGn</option>
+        <option value='interpolateViridis'>interpolateViridis</option>
+        <option value='interpolateBrBG'>interpolateBrBG</option>
+      </select>
+      <br/>
+      <svg id='map'></svg>
+      <svg id='linechart'></svg>
+    </div>
+  </body>
 </html>

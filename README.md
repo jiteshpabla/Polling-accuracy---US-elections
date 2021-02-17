@@ -11,9 +11,9 @@ The data was aggregated from public sources and preprocessed into a simple state
 ## Design techniques
 
 Using techniques from the data storytelling, I created two visualizations about a dataset that frame the data with opposite narratives.
+The idea was to make it like a debate: one team argues the affirmative position, while the other argues the negative.
 
 [This paper on visualization rhetoric](http://users.eecs.northwestern.edu/~jhullman/vis_rhetoric.pdf) provides an extensive collection of framing and styling techniques you can use to help frame a visualization to promote a specific viewpoint, story, or argument.
-Your frame of mind if you choose this option should be like a debate: one team argues the affirmative position, while the other argues the negative. For this assigment, you'll argue both sides. You are free to use any visualization techniques and rhetorical framing devices you like, but you should only create ONE main visualization for each side. (In other words, don’t make a dashboard of several linked charts. However, it’s okay to inset or annotate a smaller chart within your primary chart though.)
 
 ## Screenshot
 
